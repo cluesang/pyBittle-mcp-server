@@ -1,0 +1,24 @@
+{
+"inputs": [
+  // The "inputs" section defines the inputs required for the MCP server configuration. 
+  {
+    "type": "promptString"
+  }
+],
+"servers": {
+  "Bittle": {
+    "type": "stdio",
+    "command": "uv",
+    "args": [
+        "run",
+        "--with",
+        "mcp[cli]",
+        "--with",
+        "git+https://github.com/cluesang/pyBittle.git@chris/updating-to-bleak",
+        "mcp",
+        "run",
+        "${workspaceFolder}/server.py",
+        ],
+    },
+  }
+ }

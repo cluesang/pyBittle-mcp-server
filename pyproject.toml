@@ -1,0 +1,13 @@
+[project]
+name = "pybittle-mcp-server"
+version = "0.1.0"
+description = "pyBittle-MCP-server"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "mcp>=1.8.1",
+    "pybittle",
+]
+
+[tool.uv.sources]
+pybittle = { git = "https://github.com/cluesang/pyBittle.git", rev = "chris/updating-to-bleak" }
