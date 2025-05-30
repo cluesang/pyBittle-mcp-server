@@ -29,6 +29,9 @@ async def connect_to_bittle():
     global isConnected
     try:
         logger.info("Attempting to connect to Bittle...")
+        # Initialize Bluetooth first
+        # await bittle.bluetoothManager.initialize_name_and_address()
+        # Then connect
         await bittle.connect_bluetooth()
         await bittle.receive_msg_bluetooth(log_bluetooth_message)  # Await the coroutine
         await bittle.send_command_bluetooth(bittleManager.Command.REST)
@@ -37,6 +40,7 @@ async def connect_to_bittle():
     except Exception as e:
         isConnected = False
         logger.error(f"Failed to connect to Bittle: {e}")
+        raise  # Re-raise the exception to be handled by the caller
 
 @dataclass
 class AppContext:
@@ -64,7 +68,7 @@ mcp = FastMCP("Bittle", lifespan=app_lifespan)
 # Callback function to log received Bluetooth messages
 def log_bluetooth_message(device:str, message: str):
     """Log received Bluetooth messages."""
-    logger.info(f"Received Bluetooth message: {message}")
+    logger.info(f"Received Bluetooth message: {device} {message}")
 
 # Wrapper to check connection status
 def ensure_connected(func):
@@ -81,6 +85,7 @@ async def move_forward():
     """Command Bittle to move forward."""
     logger.info("Executing move_forward command.")
     await bittle.send_command_bluetooth(bittleManager.Command.FORWARD)
+    return "Successfully commanded Bittle to move forward"
 
 @ensure_connected
 @mcp.tool()
@@ -88,6 +93,7 @@ async def move_backward():
     """Command Bittle to move backward."""
     logger.info("Executing move_backward command.")
     await bittle.send_command_bluetooth(bittleManager.Command.BACKWARD)
+    return "Successfully commanded Bittle to move backward"
 
 @ensure_connected
 @mcp.tool()
@@ -95,6 +101,7 @@ async def turn_left():
     """Command Bittle to turn left."""
     logger.info("Executing turn_left command.")
     await bittle.send_command_bluetooth(bittleManager.Command.LEFT)
+    return "Successfully commanded Bittle to turn left"
 
 @ensure_connected
 @mcp.tool()
@@ -102,6 +109,7 @@ async def turn_right():
     """Command Bittle to turn right."""
     logger.info("Executing turn_right command.")
     await bittle.send_command_bluetooth(bittleManager.Command.RIGHT)
+    return "Successfully commanded Bittle to turn right"
 
 @ensure_connected
 @mcp.tool()
@@ -109,6 +117,7 @@ async def stop():
     """Command Bittle to stop all movement."""
     logger.info("Executing stop command.")
     await bittle.send_command_bluetooth(bittleManager.Command.REST)
+    return "Successfully commanded Bittle to stop"
 
 @ensure_connected
 @mcp.tool()
@@ -116,6 +125,7 @@ async def sit():
     """Command Bittle to sit."""
     logger.info("Executing sit command.")
     await bittle.send_command_bluetooth(bittleManager.Command.SIT)
+    return "Successfully commanded Bittle to sit"
 
 @ensure_connected
 @mcp.tool()
@@ -123,6 +133,7 @@ async def balance():
     """Command Bittle to balance."""
     logger.info("Executing balance command.")
     await bittle.send_command_bluetooth(bittleManager.Command.BALANCE)
+    return "Successfully commanded Bittle to balance"
 
 @ensure_connected
 @mcp.tool()
@@ -130,6 +141,7 @@ async def stretch():
     """Command Bittle to stretch."""
     logger.info("Executing stretch command.")
     await bittle.send_command_bluetooth(bittleManager.Command.STRETCH)
+    return "Successfully commanded Bittle to stretch"
 
 @ensure_connected
 @mcp.tool()
@@ -137,6 +149,7 @@ async def backflip():
     """Command Bittle to perform a backflip."""
     logger.info("Executing backflip command.")
     await bittle.send_command_bluetooth(bittleManager.Command.BACKFLIP)
+    return "Successfully commanded Bittle to perform a backflip"
 
 @ensure_connected
 @mcp.tool()
@@ -144,6 +157,7 @@ async def rest():
     """Command Bittle to rest."""
     logger.info("Executing rest command.")
     await bittle.send_command_bluetooth(bittleManager.Command.REST)
+    return "Successfully commanded Bittle to rest"
 
 # Ensure proper cleanup
 async def cleanup():

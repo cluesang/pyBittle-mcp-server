@@ -10,4 +10,4 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-pybittle = { git = "https://github.com/cluesang/pyBittle.git", rev = "chris/updating-to-bleak" }
+pybittle = { git = "https://github.com/cluesang/pyBittle.git"}

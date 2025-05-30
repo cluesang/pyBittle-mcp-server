@@ -24,8 +24,18 @@ A Python MCP (Model Context Protocol) server for controlling the Bittle robot vi
    curl -Ls https://astral.sh/uv/install.sh | sh
    ```
 
-2. **Install dependencies:**
+2. **Install uvx (required for MCP server):**
    ```bash
+   curl -Ls https://astral.sh/uvx/install.sh | sh
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   # Option 1: Using start_server.sh (recommended)
+   chmod +x start_server.sh
+   ./start_server.sh
+
+   # Option 2: Manual installation
    uv pip install -r requirements.txt
    # or, if using pyproject.toml:
    uv pip install -r pyproject.toml
@@ -38,7 +48,11 @@ A Python MCP (Model Context Protocol) server for controlling the Bittle robot vi
 
 2. **Run the MCP server:**
    ```bash
-   uv pip run python server.py
+   # Option 1: Using start_server.sh (recommended)
+   ./start_server.sh
+   
+   # Option 2: Manual start
+   uvx mcpo --port 8080 -- uv run --with 'mcp[cli]' --with git+https://github.com/cluesang/pyBittle.git mcp run ./server.py
    ```
    The server will attempt to connect to Bittle and log status to `bittle_mcp.log`.
 
@@ -58,11 +72,14 @@ A Python MCP (Model Context Protocol) server for controlling the Bittle robot vi
 - The main logic is in `server.py`.
 - Logging is configured to output to both console and `bittle_mcp.log`.
 - Commands are decorated with `@mcp.tool()` for MCP exposure.
+- Use `start_server.sh` for development as it handles environment setup and process management.
 
 ## Troubleshooting
 
 - If the server fails to connect, check Bluetooth pairing and ensure no other process is using the Bittle connection.
 - Review `bittle_mcp.log` for detailed error messages.
+- If you encounter port conflicts, `start_server.sh` will automatically handle killing existing server processes.
+- Make sure both `uv` and `uvx` are installed and available in your PATH.
 
 ## License
 
